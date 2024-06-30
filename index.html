@@ -79,10 +79,10 @@
                     var formattedDate = targetDate.toLocaleDateString('ru-RU', {day: 'numeric', month: 'long', year: 'numeric'});
                     result.innerHTML = 'Это ' + formattedDate;
                 } else {
-                    result.innerHTML = 'Введите корректный номер страницы жизни.';
+                    result.innerHTML = 'Ты ошибочно себя повёл.';
                 }
             } else {
-                result.innerHTML = 'Введите корректный номер страницы жизни.';
+                result.innerHTML = 'Ты ошибочно себя повёл.';
             }
         }
 
@@ -97,10 +97,10 @@
                     var daysDiff = Math.floor((targetDate - birthDate) / (1000 * 60 * 60 * 24)) + 1;
                     result.innerHTML = 'Это страница жизни №' + daysDiff + '.';
                 } else {
-                    result.innerHTML = 'Введите дату.';
+                    result.innerHTML = 'Ты ошибочно себя повёл.';
                 }
             } else {
-                result.innerHTML = 'Введите корректную дату.';
+                result.innerHTML = 'Ты ошибочно себя повёл.';
             }
         }
 
