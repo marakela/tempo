@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Программа «Время»</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-image: linear-gradient(165deg, rgb(255, 0, 255), rgb(205, 100, 105), rgb(78, 78, 255));
+            height: 100vh;
+            color: rgb(245, 245, 245);
+        }
+        h2 {
+            padding-top: 9vh;
+        }
+        #currentLifePage {
+            font-family:'Courier New', Courier, monospace;
+            position: absolute;
+            top: 60vh;
+            left: 0;
+            text-align: center;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.55);
+            color: white;
+        }
+        .container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .input-group {
+            margin: 10px 25px;
+        }
+        input, button {
+            padding: 4px;
+            font-size: 16px;
+            width: 130px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Конвертёр дат в дневнике</h2>
+
+    <div class="container">
+        <div class="input-group">
+            <label for="inputDate">Дата:</label><br>
+            <input type="date" id="inputDate"><br><br>
+            <button onclick="convertToPage()">Перевести в страницу жизни</button>
+        </div>
+        <div class="input-group">
+            <label for="inputPage">Страница жизни:</label><br>
+            <input type="text" id="inputPage"><br><br>
+            <button onclick="convertToDate()">Перевести в дату</button>
+        </div>
+    </div>
+    
+    <div id="result"></div>
+
+    <h1 id="currentLifePage">Сегодня страница жизни №<span id="currentLifePageValue"></span>.</h1>
+
+    <script>
+        function convertToDate() {
+            var input = document.getElementById('inputPage').value.trim();
+            var result = document.getElementById('result');
+            var birthDate = new Date(2003, 3, 28); // April is month 3 (0-indexed)
+
+            if (!isNaN(input)) {
+                var lifePage = parseInt(input);
+                if (lifePage > 0) {
+                    var targetDate = new Date(birthDate);
+                    targetDate.setDate(targetDate.getDate() + lifePage - 1);
+                    var formattedDate = targetDate.toLocaleDateString('ru-RU', {day: 'numeric', month: 'long', year: 'numeric'});
+                    result.innerHTML = 'Это ' + formattedDate;
+                } else {
+                    result.innerHTML = 'Введите корректный номер страницы жизни.';
+                }
+            } else {
+                result.innerHTML = 'Введите корректный номер страницы жизни.';
+            }
+        }
+
+        function convertToPage() {
+            var input = document.getElementById('inputDate').value;
+            var result = document.getElementById('result');
+            var birthDate = new Date(2003, 3, 28); // April is month 3 (0-indexed)
+
+            if (input) {
+                var targetDate = new Date(input);
+                if (!isNaN(targetDate.getTime())) {
+                    var daysDiff = Math.floor((targetDate - birthDate) / (1000 * 60 * 60 * 24)) + 1;
+                    result.innerHTML = 'Это страница жизни №' + daysDiff + '.';
+                } else {
+                    result.innerHTML = 'Введите дату.';
+                }
+            } else {
+                result.innerHTML = 'Введите корректную дату.';
+            }
+        }
+
+        // Show current life page on page load
+        document.getElementById('currentLifePageValue').innerText = getCurrentLifePage();
+
+        function getCurrentLifePage() {
+            var currentDate = new Date();
+            var birthDate = new Date(2003, 3, 28); // April is month 3 (0-indexed)
+            var daysDiff = Math.floor((currentDate - birthDate) / (1000 * 60 * 60 * 24)) + 1;
+            return daysDiff;
+        }
+    </script>
+</body>
+</html>
