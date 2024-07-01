@@ -93,7 +93,11 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            var today = new Date().toISOString().split('T')[0];
+            var now = new Date();
+            var moscowOffset = 3 * 60; // Москва в UTC+3
+            var localOffset = now.getTimezoneOffset();
+            var moscowTime = new Date(now.getTime() + (moscowOffset + localOffset) * 60000);
+            var today = moscowTime.toISOString().split('T')[0];
             document.getElementById('inputDate').value = today;
         });
     </script>
