@@ -16,16 +16,6 @@
         h2 {
             padding-top: 9vh;
         }
-        #currentLifePage {
-            font-family:'Courier New', Courier, monospace;
-            position: absolute;
-            top: 60vh;
-            left: 0;
-            text-align: center;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.55);
-            color: white;
-        }
         .container {
             margin-top: 20px;
             display: flex;
@@ -62,8 +52,6 @@
     </div>
     
     <div id="result"></div>
-
-    <h1 id="currentLifePage">Сегодня страница жизни №<span id="currentLifePageValue"></span>.</h1>
 
     <script>
         function convertToDate() {
@@ -104,15 +92,10 @@
             }
         }
 
-        // Show current life page on page load
-        document.getElementById('currentLifePageValue').innerText = getCurrentLifePage();
-
-        function getCurrentLifePage() {
-            var currentDate = new Date();
-            var birthDate = new Date(2003, 3, 28); // April is month 3 (0-indexed)
-            var daysDiff = Math.floor((currentDate - birthDate) / (1000 * 60 * 60 * 24)) + 1;
-            return daysDiff;
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('inputDate').value = today;
+        });
     </script>
 </body>
 </html>
