@@ -33,6 +33,9 @@
             margin-top: 20px;
             font-size: 24px;
         }
+        p {
+            margin: 6px 0;
+        }
     </style>
 </head>
 <body>
@@ -68,6 +71,11 @@
             }
         }
 
+        function ensurePeriod(text) {
+            // Добавляем точку только если её нет в конце строки
+            return text.trim().endsWith('.') ? text.trim() : text.trim() + '.';
+        }
+
         function convertToDate() {
             const input = document.getElementById('inputPage').value.trim();
             const result = document.getElementById('result');
@@ -78,12 +86,14 @@
                     const targetDate = new Date(birthDate);
                     targetDate.setDate(targetDate.getDate() + lifePage - 1);
                     const formattedDate = targetDate.toLocaleDateString('ru-RU', {day: 'numeric', month: 'long', year: 'numeric'});
-                    result.innerHTML = 'Это ' + formattedDate + '.<br>' + getVovaShiftInfo(targetDate);
+                    const line1 = ensurePeriod('Это ' + formattedDate);
+                    const line2 = getVovaShiftInfo(targetDate);
+                    result.innerHTML = `<p>${line1}</p><p>${line2}</p>`;
                 } else {
-                    result.innerHTML = 'Ты ошибочно себя повёл.';
+                    result.innerHTML = '<p>Ты ошибочно себя повёл.</p>';
                 }
             } else {
-                result.innerHTML = 'Ты ошибочно себя повёл.';
+                result.innerHTML = '<p>Ты ошибочно себя повёл.</p>';
             }
         }
 
@@ -95,12 +105,14 @@
                 const targetDate = new Date(input);
                 if (!isNaN(targetDate.getTime())) {
                     const daysDiff = Math.floor((targetDate - birthDate) / (1000 * 60 * 60 * 24)) + 1;
-                    result.innerHTML = 'Это страница жизни №' + daysDiff + '.<br>' + getVovaShiftInfo(targetDate);
+                    const line1 = ensurePeriod('Это страница жизни №' + daysDiff);
+                    const line2 = getVovaShiftInfo(targetDate);
+                    result.innerHTML = `<p>${line1}</p><p>${line2}</p>`;
                 } else {
-                    result.innerHTML = 'Ты ошибочно себя повёл.';
+                    result.innerHTML = '<p>Ты ошибочно себя повёл.</p>';
                 }
             } else {
-                result.innerHTML = 'Ты ошибочно себя повёл.';
+                result.innerHTML = '<p>Ты ошибочно себя повёл.</p>';
             }
         }
 
