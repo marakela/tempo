@@ -54,18 +54,31 @@
     <div id="result"></div>
 
     <script>
+        const birthDate = new Date(2003, 3, 28); // 28 апреля 2003
+        const vovaCycleStart = new Date(2025, 9, 30); // 30 октября 2025 — 1-й рабочий день
+        const cycleLength = 6; // 3 работы + 3 выходных
+
+        function getVovaShiftInfo(targetDate) {
+            const diffDays = Math.floor((targetDate - vovaCycleStart) / (1000 * 60 * 60 * 24));
+            const offset = ((diffDays % cycleLength) + cycleLength) % cycleLength;
+            if (offset < 3) {
+                return `К тому же это ${offset + 1}-й рабочий день Вовы.`;
+            } else {
+                return `К тому же это ${offset - 2}-й выходной день Вовы.`;
+            }
+        }
+
         function convertToDate() {
-            var input = document.getElementById('inputPage').value.trim();
-            var result = document.getElementById('result');
-            var birthDate = new Date(2003, 3, 28); // April is month 3 (0-indexed)
+            const input = document.getElementById('inputPage').value.trim();
+            const result = document.getElementById('result');
 
             if (!isNaN(input)) {
-                var lifePage = parseInt(input);
+                const lifePage = parseInt(input);
                 if (lifePage > 0) {
-                    var targetDate = new Date(birthDate);
+                    const targetDate = new Date(birthDate);
                     targetDate.setDate(targetDate.getDate() + lifePage - 1);
-                    var formattedDate = targetDate.toLocaleDateString('ru-RU', {day: 'numeric', month: 'long', year: 'numeric'});
-                    result.innerHTML = 'Это ' + formattedDate;
+                    const formattedDate = targetDate.toLocaleDateString('ru-RU', {day: 'numeric', month: 'long', year: 'numeric'});
+                    result.innerHTML = 'Это ' + formattedDate + '.<br>' + getVovaShiftInfo(targetDate);
                 } else {
                     result.innerHTML = 'Ты ошибочно себя повёл.';
                 }
@@ -75,15 +88,14 @@
         }
 
         function convertToPage() {
-            var input = document.getElementById('inputDate').value;
-            var result = document.getElementById('result');
-            var birthDate = new Date(2003, 3, 28); // April is month 3 (0-indexed)
+            const input = document.getElementById('inputDate').value;
+            const result = document.getElementById('result');
 
             if (input) {
-                var targetDate = new Date(input);
+                const targetDate = new Date(input);
                 if (!isNaN(targetDate.getTime())) {
-                    var daysDiff = Math.floor((targetDate - birthDate) / (1000 * 60 * 60 * 24)) + 1;
-                    result.innerHTML = 'Это страница жизни №' + daysDiff + '.';
+                    const daysDiff = Math.floor((targetDate - birthDate) / (1000 * 60 * 60 * 24)) + 1;
+                    result.innerHTML = 'Это страница жизни №' + daysDiff + '.<br>' + getVovaShiftInfo(targetDate);
                 } else {
                     result.innerHTML = 'Ты ошибочно себя повёл.';
                 }
@@ -93,11 +105,11 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            var now = new Date();
-            var moscowOffset = 3 * 60; // Москва в UTC+3
-            var localOffset = now.getTimezoneOffset();
-            var moscowTime = new Date(now.getTime() + (moscowOffset + localOffset) * 60000);
-            var today = moscowTime.toISOString().split('T')[0];
+            const now = new Date();
+            const moscowOffset = 3 * 60;
+            const localOffset = now.getTimezoneOffset();
+            const moscowTime = new Date(now.getTime() + (moscowOffset + localOffset) * 60000);
+            const today = moscowTime.toISOString().split('T')[0];
             document.getElementById('inputDate').value = today;
         });
     </script>
